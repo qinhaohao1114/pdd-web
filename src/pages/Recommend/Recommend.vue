@@ -2,12 +2,12 @@
   <div class="recommend-container" v-if="recommendshoplist.length>0">
     <ul class="recommend">
       <li class="recommend-item" v-for="(item,index) in recommendshoplist" :key="index">
-        <img :src="item.thumb_url" v-if="item.thumb_url" width="100%">
+        <img :src="item.hd_thumb_url" v-if="item.hd_thumb_url" width="100%">
         <h1 class="item-title">{{item.short_name}}</h1>
         <div class="item-buttom">
             <span class="item-price">¥{{item.price/100}}</span>
-            <span class="item-sales">{{item.sales}}</span>
-            <button class="item-btn">找相关</button>
+            <span class="item-sales">{{item.sales_tip}}</span>
+            <button class="item-btn">发现 ></button>
         </div>
       </li>
     </ul>

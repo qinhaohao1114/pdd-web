@@ -15,7 +15,7 @@ export const getHomeNav = ()=>ajax(BASE_URL + 'homenav.json');
 export const getHomeShopList = ()=>ajax(BASE_URL + 'shopList.json');
 
 // 2.4 请求推荐的商品数据
-export const getRecommendShopList = ()=>ajax(BASE_URL + 'recommend.json');
+export const getRecommendShopList = ()=>ajax("http://localhost:8099/good-recommend");
 
 // 2.5 请求搜索的列表数据
 export const getSearchGoods = ()=>ajax(BASE_URL + 'search.json');
