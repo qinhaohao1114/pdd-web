@@ -1,15 +1,21 @@
 <template>
   <div class="recommend-container" v-if="recommendshoplist.length>0">
     <ul class="recommend">
-      <li class="recommend-item" v-for="(item,index) in recommendshoplist" :key="index">
-        <img :src="item.hd_thumb_url" v-if="item.hd_thumb_url" width="100%">
-        <h1 class="item-title">{{item.short_name}}</h1>
-        <div class="item-buttom">
-            <span class="item-price">¥{{item.price/100}}</span>
-            <span class="item-sales">{{item.sales_tip}}</span>
-            <button class="item-btn">发现 ></button>
-        </div>
-      </li>
+      <!--<li class="recommend-item" v-for="(item,index) in recommendshoplist" :key="index">-->
+        <!--<img :src="item.hd_thumb_url" v-if="item.hd_thumb_url" width="100%">-->
+        <!--<h1 class="item-title">{{item.short_name}}</h1>-->
+        <!--<div class="item-buttom">-->
+            <!--<span class="item-price">¥{{item.price/100}}</span>-->
+            <!--<span class="item-sales">{{item.sales_tip}}</span>-->
+            <!--<button class="item-btn">发现 ></button>-->
+        <!--</div>-->
+      <!--</li>-->
+      <shop-list
+      tag="li"
+      v-for="(item,index) in recommendshoplist"
+      :item="item"
+      :key="index"
+      ></shop-list>
     </ul>
 
 
@@ -18,14 +24,62 @@
 
 <script>
   import {mapState} from 'vuex'
+  import ShopList from './../../components/ShopList/ShopList'
+  import BScroll from 'better-scroll';
+
   export default {
     name: "Recommend",
-
+    data(){
+      return{
+        page: 1,
+        count: 10
+      }
+    },
+    components:{
+      ShopList
+    },
     mounted () {
       this.$store.dispatch('reqRecommendShopList');
     },
     computed:{
       ...mapState(['recommendshoplist'])
+    },
+    watch:{
+      recommendshoplist(){
+        this.$nextTick(()=>{
+          this.page +=1;
+          this._initBScroll();
+        })
+      }
+    },
+    methods:{
+      _initBScroll(){
+        this.listScroll = new BScroll('.recommend-container',{
+          scrolly: true,
+          probeType: 3
+        });
+        this.listScroll.on("touchEnd",(pos)=>{
+          // console.log(pos);
+          // console.log(this.listScroll.maxScrollY);
+
+          if (pos.y>50){
+            console.log("下拉刷新");
+          }
+          if (this.listScroll.maxScrollY>pos.y+80){
+            console.log(this.page)
+            console.log("上拉加载更多");
+
+            this.$store.dispatch('reqRecommendShopList', {page: this.page, count: this.count, callback: ()=>{
+                // Indicator.close();
+                log.info("回掉函数")
+              }});
+          }
+        });
+        // 1.3 列表滚动结束
+        this.listScroll.on('scrollEnd', () => {
+          this.listScroll.refresh();
+        });
+      }
     }
   }
 </script>
