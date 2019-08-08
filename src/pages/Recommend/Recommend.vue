@@ -26,6 +26,7 @@
   import {mapState} from 'vuex'
   import ShopList from './../../components/ShopList/ShopList'
   import BScroll from 'better-scroll';
+  import {Indicator} from 'mint-ui';
 
   export default {
     name: "Recommend",
@@ -39,7 +40,12 @@
       ShopList
     },
     mounted () {
-      this.$store.dispatch('reqRecommendShopList');
+      Indicator.open('正在加载数据');
+      this.$store.dispatch('reqRecommendShopList',{
+        page: this.page,count:this.count,callback:()=>{
+          Indicator.close();
+        }
+      });
     },
     computed:{
       ...mapState(['recommendshoplist'])
@@ -68,10 +74,10 @@
           if (this.listScroll.maxScrollY>pos.y+80){
             console.log(this.page)
             console.log("上拉加载更多");
-
+            Indicator.open('正在加载数据...');
             this.$store.dispatch('reqRecommendShopList', {page: this.page, count: this.count, callback: ()=>{
-                // Indicator.close();
-                log.info("回掉函数")
+                Indicator.close();
+                // log.info("回掉函数")
               }});
           }
         });

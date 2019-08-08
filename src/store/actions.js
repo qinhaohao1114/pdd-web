@@ -36,7 +36,8 @@ export default {
   // 4. 获取推荐的商品数据
   async reqRecommendShopList({commit},params) {
     const result = await getRecommendShopList(params);
-    commit(RECOMMEND_SHOP_LIST, {recommendshoplist: result.data})
+    commit(RECOMMEND_SHOP_LIST, {recommendshoplist: result.data});
+    params.callback && params.callback();
   },
 
   // 5. 获取推荐的商品数据
