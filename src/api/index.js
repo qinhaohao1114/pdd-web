@@ -20,7 +20,8 @@ export const getRecommendShopList = ()=>ajax("http://localhost:8099/good-recomme
 // 2.5 请求搜索的列表数据
 export const getSearchGoods = ()=>ajax(BASE_URL + 'search.json');
 
-
+// 2.6 发送短信验证码
+export const sendCode = phone => ajax(BASE_URL + '/api/sendcode', {phone});
 
 
 

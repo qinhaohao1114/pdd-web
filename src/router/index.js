@@ -7,6 +7,7 @@ import Recommend from './../pages/Recommend/Recommend'
 import Search from './../pages/Search/Search'
 import Chat from './../pages/Chat/Chat'
 import Me from './../pages/Me/Me'
+import Login from './../components/Login/Login'
 
 // 3. 二级路由
 import Hot from '../pages/Home/Children/Hot/Hot'
@@ -64,6 +65,10 @@ export default new VueRouter({
     {
       path: '/me',
       component: Me
+    },
+    {
+      path: '/login',
+      component: Login,
     },
     {
       path: '/',
